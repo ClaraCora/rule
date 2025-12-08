@@ -28,7 +28,7 @@ jobs:
 
       - name: Clone source repository
         run: |
-          git clone https://github.com/666OS/rules.git temp-rules
+          git clone --branch release --depth 1 https://github.com/666OS/rules.git temp-rules
 
       - name: Sync Surge rules
         run: |
