@@ -1,0 +1,40 @@
+# NAME: Direct
+# AUTHOR: YYDS666
+# UPDATED: 2025-12-08 02:19:00
+# TOTAL: 36
+DOMAIN,captive.apple.com
+DOMAIN,connect.qq.com
+DOMAIN,connect.rom.miui.com
+DOMAIN,connectivitycheck.gstatic.com
+DOMAIN,connectivitycheck.platform.hicloud.com
+DOMAIN,connectivitycheck.platform.hihonorcloud.com
+DOMAIN,cp.cloudflare.com
+DOMAIN,detectportal.firefox.com
+DOMAIN,network-test.debian.org
+DOMAIN,networkcheck.kde.org
+DOMAIN,ping.archlinux.org
+DOMAIN,speedtest.10086.cn
+DOMAIN,www.gstatic.com
+DOMAIN,www.msftconnecttest.com
+DOMAIN,www.msftncsi.com
+DOMAIN-SUFFIX,checkip.dyndns.org
+DOMAIN-SUFFIX,checkip.synology.com
+DOMAIN-SUFFIX,checkipv6.dyndns.org
+DOMAIN-SUFFIX,cloudstudio.work
+DOMAIN-SUFFIX,cocopilot.org
+DOMAIN-SUFFIX,czzyvideo.com
+DOMAIN-SUFFIX,ghp.ci
+DOMAIN-SUFFIX,gradio.live
+DOMAIN-SUFFIX,iqiyis.com
+DOMAIN-SUFFIX,istoreos.com
+DOMAIN-SUFFIX,kelee.one
+DOMAIN-SUFFIX,musicbrainz.org
+DOMAIN-SUFFIX,ngrok-free.app
+DOMAIN-SUFFIX,ntp.org
+DOMAIN-SUFFIX,quickconnect.to
+DOMAIN-SUFFIX,speedtest.cn
+DOMAIN-SUFFIX,steamcontent.com
+DOMAIN-SUFFIX,synology.com
+DOMAIN-KEYWORD,quickconnect
+DOMAIN-KEYWORD,synology
+PROCESS-NAME,zerotier-one
