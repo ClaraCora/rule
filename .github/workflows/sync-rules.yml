@@ -35,12 +35,8 @@ jobs:
           # 创建 surge 目录（如果不存在）
           mkdir -p surge
 
-          # 复制 Surge 规则文件
+          # 复制 Surge 规则文件（只复制规则文件，不复制 README 和 LICENSE）
           cp -r temp-rules/surge/* surge/
-
-          # 复制 LICENSE 和 README（如果存在）
-          [ -f temp-rules/LICENSE.txt ] && cp temp-rules/LICENSE.txt .
-          [ -f temp-rules/README.md ] && cp temp-rules/README.md .
 
       - name: Check for changes
         id: check_changes
@@ -55,7 +51,7 @@ jobs:
       - name: Commit and push changes
         if: steps.check_changes.outputs.has_changes == 'true'
         run: |
-          git commit -m "Auto sync rules from 666OS/rules ($(date +'%Y-%m-%d %H:%M:%S'))"
+          git commit -m "Update rules ($(date +'%Y-%m-%d %H:%M:%S'))"
           git push origin main
 
       - name: Cleanup
