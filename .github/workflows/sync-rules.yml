@@ -1,0 +1,69 @@
+name: Sync Rules from 666OS
+
+on:
+  # 每天北京时间早上 8 点执行（UTC 时间 0 点）
+  schedule:
+    - cron: '0 0 * * *'
+
+  # 允许手动触发
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout target repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          fetch-depth: 0
+
+      - name: Configure Git
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+      - name: Clone source repository
+        run: |
+          git clone https://github.com/666OS/rules.git temp-rules
+
+      - name: Sync Surge rules
+        run: |
+          # 创建 surge 目录（如果不存在）
+          mkdir -p surge
+
+          # 复制 Surge 规则文件
+          cp -r temp-rules/surge/* surge/
+
+          # 复制 LICENSE 和 README（如果存在）
+          [ -f temp-rules/LICENSE.txt ] && cp temp-rules/LICENSE.txt .
+          [ -f temp-rules/README.md ] && cp temp-rules/README.md .
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add .
+          if git diff --cached --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.has_changes == 'true'
+        run: |
+          git commit -m "Auto sync rules from 666OS/rules ($(date +'%Y-%m-%d %H:%M:%S'))"
+          git push origin main
+
+      - name: Cleanup
+        run: |
+          rm -rf temp-rules
+
+      - name: Summary
+        run: |
+          if [ "${{ steps.check_changes.outputs.has_changes }}" == "true" ]; then
+            echo "✅ Rules synced successfully at $(date +'%Y-%m-%d %H:%M:%S')"
+          else
+            echo "ℹ️ No changes detected, repository is up to date"
+          fi
