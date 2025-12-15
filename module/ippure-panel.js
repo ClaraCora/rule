@@ -1,5 +1,5 @@
 /**
- * Surge Information Panel Script (CN)
+ * Surge Information Panel Script (All-in-One CN)
  * Returns {title, content, style} via $done()
  * style: good / info / alert / error
  */
@@ -8,23 +8,6 @@ const API = "https://my.ippure.com/v1/info";
 const CACHE_KEY = "ippure_cache_json";
 const CACHE_TS_KEY = "ippure_cache_ts";
 const CACHE_TTL_MS = 10 * 1000;
-
-function parseArgs(raw) {
-  if (!raw) return {};
-  raw = String(raw).trim();
-  const out = {};
-  if (raw.startsWith("{") && raw.endsWith("}")) {
-    try { return JSON.parse(raw); } catch (_) {}
-  }
-  raw.split("&").forEach(kv => {
-    const i = kv.indexOf("=");
-    if (i === -1) return;
-    const k = decodeURIComponent(kv.slice(0, i).trim());
-    const v = decodeURIComponent(kv.slice(i + 1).trim());
-    out[k] = v;
-  });
-  return out;
-}
 
 function httpGet(url) {
   return new Promise((resolve) => {
@@ -56,54 +39,51 @@ function doneError(title, msg) {
   $done({ title, content: msg, style: "error" });
 }
 
-(async () => {
-  const args = parseArgs($argument);
-  const mode = (args.mode || "fraud").toLowerCase();
+function fraudLevel(score) {
+  if (score >= 70) return { level: "高风险", style: "error" };
+  if (score >= 40) return { level: "中风险", style: "alert" };
+  return { level: "低风险", style: "good" };
+}
 
+function nativeStyle(isRes, isBrd) {
+  // 住宅+原生 最好；机房+广播 最差
+  if (!isRes && isBrd) return "error";
+  if ((isRes && isBrd) || (!isRes && !isBrd)) return "alert";
+  return "good";
+}
+
+function mergeStyle(a, b) {
+  // error > alert > info > good
+  const rank = { error: 3, alert: 2, info: 1, good: 0 };
+  return rank[a] >= rank[b] ? a : b;
+}
+
+(async () => {
   try {
     const json = await fetchInfoJson();
 
-    if (mode === "fraud") {
-      const score = json.fraudScore;
-      if (score === undefined || score === null) {
-        return $done({ title: "IPPure 风险评分", content: "未返回评分", style: "error" });
-      }
+    const score = json.fraudScore;
+    const isRes = Boolean(json.isResidential);
+    const isBrd = Boolean(json.isBroadcast);
 
-      // 评分分级（沿用你原脚本逻辑的阈值观感：低/中/高）
-      let level = "低风险";
-      let style = "good";
-      if (score >= 40 && score < 70) { level = "中风险"; style = "alert"; }
-      if (score >= 70) { level = "高风险"; style = "error"; }
+    const scoreText = (score === undefined || score === null) ? "未返回" : String(score);
+    const fraud = (score === undefined || score === null) ? { level: "未知", style: "info" } : fraudLevel(Number(score));
+    const netType = isRes ? "住宅 IP" : "机房/IDC IP";
+    const nativeType = isBrd ? "广播/宣告 IP（Announced）" : "原生 IP（Native）";
 
-      return $done({
-        title: "IPPure 风险评分",
-        content: `风险评分：${score}\n风险等级：${level}`,
-        style,
-      });
-    }
+    const style = mergeStyle(fraud.style, nativeStyle(isRes, isBrd));
 
-    if (mode === "native") {
-      const isRes = Boolean(json.isResidential);
-      const isBrd = Boolean(json.isBroadcast);
+    const content =
+      `风险评分：${scoreText}（${fraud.level}）\n` +
+      `网络类型：${netType}\n` +
+      `原生判断：${nativeType}`;
 
-      const line1 = `网络类型：${isRes ? "住宅 IP" : "机房/IDC IP"}`;
-      const line2 = `原生判断：${isBrd ? "广播/宣告 IP（Announced）" : "原生 IP（Native）"}`;
-
-      // 显示样式：越“干净”越绿
-      let style = "good";         // 住宅 + 原生
-      if ((isRes && isBrd) || (!isRes && !isBrd)) style = "alert"; // 介于中间
-      if (!isRes && isBrd) style = "error";      // 机房 + 广播（最不理想）
-
-      return $done({
-        title: "IPPure 原生/住宅判断",
-        content: `${line1}\n${line2}`,
-        style,
-      });
-    }
-
-    return $done({ title: "IPPure", content: "未知模式参数", style: "error" });
-
+    $done({
+      title: "IPPure IP 检测",
+      content,
+      style,
+    });
   } catch (e) {
-    return doneError("IPPure", e && e.message ? e.message : "脚本错误");
+    return doneError("IPPure IP 检测", e && e.message ? e.message : "脚本错误");
   }
 })();
