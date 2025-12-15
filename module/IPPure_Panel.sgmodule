@@ -1,0 +1,13 @@
+#!name=IPPure Info Panel
+#!desc=在 Surge 面板展示 IPPure：IP 信息 / 风险评分 / 原生&住宅判断
+#!system=ios
+
+[Script]
+IPPure_Info  = type=generic,timeout=10,script-path=ippure-panel.js,argument=mode=info
+IPPure_Fraud = type=generic,timeout=10,script-path=ippure-panel.js,argument=mode=fraud
+IPPure_Native= type=generic,timeout=10,script-path=ippure-panel.js,argument=mode=native
+
+[Panel]
+IPPure-IP-Info        = title="IPPure IP Info",content="Tap refresh to load",style=info,script-name=IPPure_Info,update-interval=600
+IPPure-IP-Fraud-Score = title="IPPure Fraud Score",content="Tap refresh to load",style=info,script-name=IPPure_Fraud,update-interval=600
+IPPure-IP-Native-Check= title="IPPure Native Check",content="Tap refresh to load",style=info,script-name=IPPure_Native,update-interval=600
