@@ -3,11 +3,12 @@
 #!system=ios
 
 [Script]
-IPPure_Info  = type=generic,timeout=10,script-path=ippure-panel.js,argument=mode=info
-IPPure_Fraud = type=generic,timeout=10,script-path=ippure-panel.js,argument=mode=fraud
-IPPure_Native= type=generic,timeout=10,script-path=ippure-panel.js,argument=mode=native
+IPPure_Info  = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/module/ippure-panel.js,argument=mode=info
+IPPure_Fraud = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/module/ippure-panel.js,argument=mode=fraud
+IPPure_Native= type=generic,timeout=10,script-path=https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/module/ippure-panel.js,argument=mode=native
 
 [Panel]
 IPPure-IP-Info        = title="IPPure IP Info",content="Tap refresh to load",style=info,script-name=IPPure_Info,update-interval=600
 IPPure-IP-Fraud-Score = title="IPPure Fraud Score",content="Tap refresh to load",style=info,script-name=IPPure_Fraud,update-interval=600
 IPPure-IP-Native-Check= title="IPPure Native Check",content="Tap refresh to load",style=info,script-name=IPPure_Native,update-interval=600
+
