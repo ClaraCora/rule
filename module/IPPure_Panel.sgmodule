@@ -3,11 +3,10 @@
 #!system=ios
 
 [Script]
-IPPure_Fraud = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/module/ippure-panel.js,argument=mode=fraud
-IPPure_Native= type=generic,timeout=10,script-path=https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/module/ippure-panel.js,argument=mode=native
+IPPure_All = type=generic,timeout=10,script-path=https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/module/ippure-panel.js,argument=mode=all
 
 [Panel]
-IPPure-IP-Fraud-Score  = title="IPPure 风险评分",content="点击刷新获取",style=info,script-name=IPPure_Fraud,update-interval=600
-IPPure-IP-Native-Check = title="IPPure 原生/住宅判断",content="点击刷新获取",style=info,script-name=IPPure_Native,update-interval=600
+IPPure = title="IPPure IP 检测",content="点击刷新获取",style=info,script-name=IPPure_All,update-interval=600
+
 
 
