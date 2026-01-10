@@ -1,7 +1,7 @@
 # NAME: AI
 # AUTHOR: YYDS666
-# UPDATED: 2026-01-09 02:20:31
-# TOTAL: 288
+# UPDATED: 2026-01-10 02:22:44
+# TOTAL: 290
 DOMAIN,ai.google.dev
 DOMAIN,aistudio.google.com
 DOMAIN,alkalicore-pa.clients6.google.com
@@ -262,6 +262,7 @@ USER-AGENT,OpenAI*
 USER-AGENT,Perplexity*
 USER-AGENT,StableDiffusion*
 USER-AGENT,TikTok*
+PROCESS-NAME,Antigravity Helper
 PROCESS-NAME,CapCut
 PROCESS-NAME,ChatGPT
 PROCESS-NAME,ChatGPTHelper
@@ -269,6 +270,7 @@ PROCESS-NAME,Cici
 PROCESS-NAME,Cici Helper
 PROCESS-NAME,Cici Helper (Renderer)
 PROCESS-NAME,Claude
+PROCESS-NAME,Code Helper
 PROCESS-NAME,Cursor
 PROCESS-NAME,DiffusionBee
 PROCESS-NAME,Discord
