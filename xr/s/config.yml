@@ -1,0 +1,53 @@
+Log:
+  Level: warning        # 日志级别：none, error, warning, info, debug
+  # LogDir: /var/log/XrayR
+  # EnableDnsLog: false
+  # MaxSize: 10
+  # MaxBackups: 3
+  # MaxAge: 28
+  # Compress: false
+
+DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
+RouteConfigPath: /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/routing.html for help
+InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound config, check https://xtls.github.io/config/inbound.html for help
+OutboundConfigPath: /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
+
+ConnectionConfig:
+  Handshake: 4
+  ConnIdle: 30
+  UplinkOnly: 2
+  DownlinkOnly: 4
+  BufferSize: 64
+
+Nodes:
+  - PanelType: "NewV2board"
+    ApiConfig:
+      ApiHost: "https://x"
+      ApiKey: ""          # ← 面板后台的服务端通讯密钥
+      NodeID: 7                            # ← 面板上 SS 节点的 ID
+      NodeType: Shadowsocks
+      Timeout: 30
+      EnableVless: false
+      VlessFlow: ""
+      SpeedLimit: 0
+      DeviceLimit: 0
+      RuleListPath:
+      DisableCustomConfig: false
+    ControllerConfig:
+      ListenIP: 0.0.0.0
+      SendIP: 0.0.0.0
+      UpdatePeriodic: 60
+      EnableDNS: true
+      DNSType: UseIPv4
+      EnableProxyProtocol: false
+      EnableFallback: false
+      FallBackConfigs:
+        - SNI:
+          Alpn:
+          Path:
+          Dest: 80
+          ProxyProtocolVer: 0
+      DisableLocalREALITYConfig: false     # SS 不用 REALITY，保持 false
+      EnableREALITY: false
+      CertConfig:
+        CertMode: none                     # 由 nginx/caddy 之类处理 TLS，先关掉这里

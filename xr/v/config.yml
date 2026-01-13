@@ -1,0 +1,56 @@
+Log:
+  Level: warning        # 日志级别：none, error, warning, info, debug
+  # LogDir: /var/log/XrayR
+  # EnableDnsLog: false
+  # MaxSize: 10
+  # MaxBackups: 3
+  # MaxAge: 28
+  # Compress: false
+
+DnsConfigPath: /etc/XrayR/dns.json # Path to dns config, check https://xtls.github.io/config/dns.html for help
+RouteConfigPath: /etc/XrayR/route.json # Path to route config, check https://xtls.github.io/config/routing.html for help
+InboundConfigPath: # /etc/XrayR/custom_inbound.json # Path to custom inbound config, check https://xtls.github.io/config/inbound.html for help
+OutboundConfigPath: /etc/XrayR/custom_outbound.json # Path to custom outbound config, check https://xtls.github.io/config/outbound.html for help
+
+ConnectionConfig:
+  Handshake: 4
+  ConnIdle: 30
+  UplinkOnly: 2
+  DownlinkOnly: 4
+  BufferSize: 64
+
+Nodes:
+  - PanelType: "NewV2board"
+    ApiConfig:
+      ApiHost: "https://x"
+      ApiKey: ""
+      NodeID: 5                            # ← 面板上 VLESS REALITY 节点的 ID
+      NodeType: Vless                      # 注意这里是 Vless，而不是 V2ray/Vmess
+      Timeout: 30
+      EnableVless: true                    # 这里保持 true，配合 NodeType: Vless
+      VlessFlow: "xtls-rprx-vision"        # REALITY 常用流控
+      SpeedLimit: 0
+      DeviceLimit: 0
+      RuleListPath:
+      DisableCustomConfig: false
+    ControllerConfig:
+      ListenIP: 0.0.0.0
+      SendIP: 0.0.0.0
+      UpdatePeriodic: 60
+      EnableDNS: true
+      DNSType: UseIPv4 # AsIs, UseIP, UseIPv4, UseIPv6, DNS strategy
+      EnableProxyProtocol: false
+
+      EnableFallback: false
+      FallBackConfigs:
+        - SNI:
+          Alpn:
+          Path:
+          Dest: 80
+          ProxyProtocolVer: 0
+
+      # ✅ 关键：让 XrayR 从面板读取 REALITY 配置，而不是用本地 REALITYConfigs
+      DisableLocalREALITYConfig: true
+      EnableREALITY: true
+      REALITYConfigs:
+        Show: true                         # 只显示调试信息，实际参数由面板下发
