@@ -3,6 +3,8 @@
 #=================================================
 #               日志和颜色定义
 #=================================================
+# curl -fsSL https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/xr/install2.sh | bash -s -- --mode install --xrayr-repo https://github.com/ClaraCora/rule/tree/main/xr --xrayr-asset XrayR-linux-64.zip --xrayr-url https://raw.githubusercontent.com/ClaraCora/rule/refs/heads/main/xr/xr.zip  --config-repo https://github.com/ClaraCora/rule/tree/main/xr/s --config-only route.json --config-only config.yml --config-only custom_outbound.json
+#########################################
 Green="\033[32m"
 Red="\033[31m"
 Yellow='\033[33m'
